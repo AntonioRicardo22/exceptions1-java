@@ -9,8 +9,8 @@ import java.time.temporal.ChronoUnit;
 
 			
 			private Integer roomNumber;
-			private LocalDate checkin;
-			private LocalDate checkout;
+			private LocalDate checkIn;
+			private LocalDate checkOut;
 			
 			static DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			
@@ -18,8 +18,8 @@ import java.time.temporal.ChronoUnit;
 
 			public Reservation(Integer roomNumber, LocalDate checkin, LocalDate checkout) {
 				this.roomNumber = roomNumber;
-				this.checkin = checkin;
-				this.checkout = checkout;
+				this.checkIn = checkin;
+				this.checkOut = checkout;
 			}
 
 			public Integer getRoomNumber() {
@@ -31,16 +31,27 @@ import java.time.temporal.ChronoUnit;
 			}
 
 			public LocalDate getCheckin() {
-				return checkin;
+				return checkIn;
 			}
 
 			public LocalDate getCheckout() {
-				return checkout;
+				return checkOut;
 			}
 			
-			public void upDates (LocalDate checkin, LocalDate checkout) {
-				this.checkin = checkin;
-				this.checkout = checkout;	
+			public String upDates (LocalDate checkin, LocalDate checkout) {
+				LocalDate now = LocalDate.now();
+				 
+				 if (checkin.isBefore(now) || checkout.isBefore(now)) {
+					 return "Error in reservation: reservation dates or update must be futre dates! ";
+				 
+				 }
+				 if  (checkout.isBefore(checkin)) {	
+						return "Error in reservation: Check-out must be after check-in date: ";
+				}
+				 
+				this.checkIn = checkin;
+				this.checkOut = checkout;	
+				return null;
 			}
 			
 			public long duaration() {	
